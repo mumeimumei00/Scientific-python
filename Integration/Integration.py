@@ -8,25 +8,23 @@ def function(x):
 
 # RiemannIntegral
 # Don't forget to always multiply outside, not inside.
-def RectangularRuleRight(funct,bound = [0,5],h=0.0001):
+def RectangularRuleRight(funct,bound = [0,5],n=50000):
+    h = (bound[1]-bound[0])/n
     return h*np.sum(funct(np.linspace(bound[0]+h,bound[1],int((bound[1]-bound[0])/h))))
 
-def RectangularRuleLeft(funct,bound = [0,5],h=0.0001):
+def RectangularRuleLeft(funct,bound = [0,5],n=50000):
+    h = (bound[1]-bound[0])/n
     return h*np.sum(funct(np.linspace(bound[0],bound[1]-h,int((bound[1]-bound[0])/h))))
 
-def RectangularMix(funct,bound = [0,5], h=0.001):
-    return (RectangularRuleLeft(funct, h= h/2) + RectangularRuleRight(funct, h= h/2))/2
+def RectangularMix(funct,bound = [0,5], n= 50000):
+    return (RectangularRuleLeft(funct, n= n/2) + RectangularRuleRight(funct, n= n/2))/2
 
-def TrapzoidRule(funct, bound = [0,5], h=0.0001):
-    return (h/2)*( 2*np.sum(funct(np.linspace(bound[0]+h,bound[1]-h,int((bound[1]-bound[0])/h)-2)))+ funct(bound[0]) + funct(bound[1]) ) 
-
-
-def TrapzoidRule2(funct, bound = [0,5], h=0.0001, n=10000):
+def TrapzoidRule(funct, bound = [0,5], n=50000):
     h = (bound[1]-bound[0])/n
     return (h/2)*( 2*np.sum(funct(np.linspace(bound[0]+h,bound[1]-h,int((bound[1]-bound[0])/h)-2)))+ funct(bound[0]) + funct(bound[1]) ) 
 
 
-def MonteCarlo(funct, bound = [0,5], n = 5):
+def MonteCarlo(funct, bound = [0,5], n = 50000):
     # random_number = [ np.random.uniform(0,5) for x in range(int(bound[1]-bound[0]))]
     random_number= np.random.uniform(bound[0],bound[1],n)
     return np.mean(function(random_number))*(bound[1]-bound[0])
@@ -45,17 +43,18 @@ def IntegralPerf(funct,InteFunct):
     return r,end
 
 def IntegralTest(funct, InteFunct, n=100):
-    return np.mean([IntegralPerf(funct,InteFunct) for x in range(100)])
+    result = 0
+    time = 0
+    for x in range(n):
+        r,end = IntegralPerf(funct,InteFunct)
+        result += r
+        time += end
+    return result/n , time/n 
     
 
-# MonteCarlo(function)
-#
-# print(IntegralPerf(function,RectangularRuleRight))
-# print(IntegralPerf(function,RectangularRuleLeft))
-# print(IntegralPerf(function,RectangularMix))
-# print(IntegralPerf(function,TrapzoidRule))
+print("Rectangular Rule Right:",IntegralTest(function,RectangularRuleRight))
+print("Rectangular Rule Left:",IntegralTest(function,RectangularRuleLeft))
+print("Rectangular Rule Mix:",IntegralTest(function,RectangularMix))
+print("Trapzoidal Rule:",IntegralTest(function,TrapzoidRule))
+print("Monte Carlo:",IntegralTest(function,MonteCarlo))
 
-print(IntegralTest(function,TrapzoidRule))
-# print(IntegralPerf(function,TrapzoidRule2))
-# print(IntegralPerf(function,MonteCarlo))
-#
