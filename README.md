@@ -8,5 +8,8 @@ This is a repo where I experiment with a bunch of scientific tools
 - [X] Integral Trapezoidal Rule
 - [X] Integral MonteCarlo
 - [X] My own Integral 
-- [ ] Integral Simpson method
+- [X] Integral Simpson method
 - [X] Test Unit
+- [ ] Change the structure of Files
+- [ ] Use Inheritance to create a class Integral
+- [ ] Real Performance Test

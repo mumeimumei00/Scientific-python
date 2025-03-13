@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import time
 
 def function(x):
-    return x*x
+    return x*x+5
 
 # RiemannIntegral
 # Don't forget to always multiply outside, not inside.
@@ -30,23 +30,27 @@ def MonteCarlo(funct, bound = [0,5], n = 50000):
     return np.mean(function(random_number))*(bound[1]-bound[0])
 
 
-def SimpsonRule(funct, bound = [0,5], h=0.0001):
+def SimpsonRule(funct, bound = [0,5], n = 1):
+    h = (bound[1]-bound[0])/n
     boundterm= funct(bound[0])+funct(bound[1])
-    # oddterm = [for x in range()] 
-    # eventerm = 
-    return (h/3)
+    oddterm = np.sum(4*funct(h*np.array([bound[0]+(2*x+1) for x in range(int(n/2))])))
+    eventerm = np.sum(2*funct(h*np.array([bound[0]+(2*x) for x in range(1,int(n/2))])))
+    return (h/3)*(boundterm+oddterm+eventerm)
 
-def IntegralPerf(funct,InteFunct):
+def IntegralTime(funct,InteMethod):
     start = time.time()
-    r = InteFunct(funct)
+    r = InteMethod(funct)
     end = time.time() - start
     return r,end
 
-def IntegralTest(funct, InteFunct, n=100):
+# def IntegralPerf(funct,InteMethod,accuracy = 0.95):
+
+
+def IntegralTest(funct, InteMethod, n=100):
     result = 0
     time = 0
     for x in range(n):
-        r,end = IntegralPerf(funct,InteFunct)
+        r,end = IntegralTime(funct,InteMethod)
         result += r
         time += end
     return result/n , time/n 
@@ -57,4 +61,5 @@ print("Rectangular Rule Left:",IntegralTest(function,RectangularRuleLeft))
 print("Rectangular Rule Mix:",IntegralTest(function,RectangularMix))
 print("Trapzoidal Rule:",IntegralTest(function,TrapzoidRule))
 print("Monte Carlo:",IntegralTest(function,MonteCarlo))
+print("Simpson Rule:",IntegralTest(function,SimpsonRule))
 
