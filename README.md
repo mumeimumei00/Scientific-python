@@ -12,4 +12,5 @@ This is a repo where I experiment with a bunch of scientific tools
 - [X] Test Unit
 - [ ] Change the structure of Files
 - [ ] Use Inheritance to create a class Integral
-- [ ] Real Performance Test
+- [ ] Visualize accuracy versus n
+- [X] Real Performance Test
