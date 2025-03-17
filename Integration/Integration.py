@@ -2,6 +2,7 @@ import numpy as np
 # import scipy
 # import matplotlib.pyplot as plt
 import time
+import matplotlib.pyplot as plt
 from abc import ABC, abstractmethod
 
 def function(x):
@@ -90,10 +91,17 @@ class SimpsonRule(Integral):
         eventerm = np.sum(2*self.funct(h*np.array([self.bound[0]+(2*x) for x in range(1,int(self.n/2))])))
         return (h/3)*(boundterm+oddterm+eventerm)
 
-integral = iter(SimpsonRule(function,[0,5],2))
+integral = iter(RectangularRuleRight(function,[0,5],2))
 # print(integral.integrate())
 # gprint(integral)
+datares = []
+datapoint = []
 for x in range (100):
-    print(next(integral))
+    datapoint.append(x)
+    datares.append(next(integral))
+
+plt.plot(datapoint,datares)
+plt.show()
+
 
 
