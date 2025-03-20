@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from abc import ABC, abstractmethod
 
 def function(x):
-    return x*x+5
+    return np.sin(x)
 
 
 class Integral:
@@ -91,17 +91,36 @@ class SimpsonRule(Integral):
         eventerm = np.sum(2*self.funct(h*np.array([self.bound[0]+(2*x) for x in range(1,int(self.n/2))])))
         return (h/3)*(boundterm+oddterm+eventerm)
 
-integral = iter(RectangularRuleRight(function,[0,5],2))
-# print(integral.integrate())
-# gprint(integral)
-datares = []
-datapoint = []
-for x in range (100):
-    datapoint.append(x)
-    datares.append(next(integral))
+fun_set = [lambda x: x**2, lambda x: np.sin(x), lambda x: x**(0.5), lambda x: np.log(x)]
+for function in fun_set:
+    integral = iter(RectangularRuleRight(function,[1,5],2))
+    integral2 = iter(RectangularRuleLeft(function,[1,5],2))
+    integral3 = iter(RectangularRuleMix(function,[1,5],2))
+    integral4 = iter(MonteCarlo(function,[1,5],2))
+    integral5 = iter(SimpsonRule(function,[1,5],2))
+    # print(integral.integrate())
+    # gprint(integral)
+    datares = []
+    datares2 = []
+    datares3 = []
+    datares4 = []
+    datares5 = []
+    datapoint = []
+    for x in range (100):
+        datapoint.append(x)
+        datares.append(next(integral))
+        datares2.append(next(integral2))
+        datares3.append(next(integral3))
+        datares4.append(next(integral4))
+        datares5.append(next(integral5))
 
-plt.plot(datapoint,datares)
-plt.show()
+    plt.plot(datapoint,datares, label ='Right rule')
+    plt.plot(datapoint,datares2,label ='Left rule')
+    plt.plot(datapoint,datares3, label ='Mix rule')
+    plt.plot(datapoint,datares4, label ='Montecarlo rule')
+    plt.plot(datapoint,datares5, label ='Simpson rule')
+    plt.legend()
+    plt.show()
 
 
 

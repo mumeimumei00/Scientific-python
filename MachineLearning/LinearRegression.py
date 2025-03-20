@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 import sklearn
 
 
@@ -35,7 +36,6 @@ print(X)
 
 # poly = sklearn.preprocessing.PolynomialFeatures(degree=2)
 # X = poly.fit_transform(X)
-# X_train, X_test, Y_train, Y_test = sklearn.model_selection.train_test_split(X,Y, test_size=0.2, random_state=42)
 #
 #
 # stdscale = sklearn.preprocessing.StandardScaler()
@@ -68,15 +68,40 @@ print(np.mean(score))
 #
 # print(Model.score(X_test, Y_test))
 # print(mse, r2)
+X = df[['school','classroom','school_setting','school_type','teaching_method','n_student','lunch']]
+Y = df[["posttest"]]
+
+X_train, X_test, Y_train, Y_test = sklearn.model_selection.train_test_split(X,Y, test_size=0.2, random_state=42)
 
 regressor = sklearn.ensemble.RandomForestRegressor(n_estimators=10,random_state=42, oob_score=True)
-regressor.fit(X,Y)
+regressor.fit(X_train,Y_train)
 
 print("oob score: ", regressor.oob_score_ )
 
-predictions = regressor.predict(X)
+predictions = regressor.predict(X_test)
 
-print("MSE= ", sklearn.metrics.mean_squared_error(Y,predictions), " R-Squared= ", sklearn.metrics.r2_score(Y,predictions))
+print("MSE= ", sklearn.metrics.mean_squared_error(Y_test,predictions), " R-Squared= ", sklearn.metrics.r2_score(Y_test,predictions))
+
+# treeplot = regressor.estimators_[1]
+# plt.figure(figsize = (10,5))
+# sklearn.tree.plot_tree(treeplot, feature_names=df.columns.tolist(), filled=True, rounded=True, fontsize=10)
+# plt.title("Random Forest's Decision Tree")
+# plt.show()
+
+regressor = sklearn.ensemble.RandomForestRegressor(random_state=42)
+hyperparameters = {'max_depth':[2,3,5,10,20,30],
+                   'n_estimators':[10,50,100,200,300],
+                   'min_samples_split': [2,5,7],
+                   'min_samples_leaf':[1,2,4],
+                   'max_features': ['auto','sqrt','log2']
+                   }
+grid_search = sklearn.model_selection.GridSearchCV(estimator=regressor, param_grid=hyperparameters, cv=5, scoring='r2',n_jobs=-1)
+grid_search.fit(X_train,Y_train)
+print("Best parameters:", grid_search.best_params_)
+print("Best score:", grid_search.best_score_)
+
+# Best parameters: {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 1, 'min_samples_split': 5, 'n_estimators': 100}
+# Best score: 0.9479861982663854
 
 
 
