@@ -7,7 +7,6 @@ df = pd.read_csv("test_scores.csv")
 
 # df.head()
 
-# ban chan
 
 setting_mapping = {'Urban':2, 'Suburban':1, 'Rural':0}
 type_mapping = {'Non-public':1, 'Public':0}
@@ -34,8 +33,8 @@ Y = df[["posttest"]]
 
 print(X)
 
-poly = sklearn.preprocessing.PolynomialFeatures(degree=2)
-X = poly.fit_transform(X)
+# poly = sklearn.preprocessing.PolynomialFeatures(degree=2)
+# X = poly.fit_transform(X)
 # X_train, X_test, Y_train, Y_test = sklearn.model_selection.train_test_split(X,Y, test_size=0.2, random_state=42)
 #
 #
@@ -69,4 +68,38 @@ print(np.mean(score))
 #
 # print(Model.score(X_test, Y_test))
 # print(mse, r2)
-#
+
+regressor = sklearn.ensemble.RandomForestRegressor(n_estimators=10,random_state=42, oob_score=True)
+regressor.fit(X,Y)
+
+print("oob score: ", regressor.oob_score_ )
+
+predictions = regressor.predict(X)
+
+print("MSE= ", sklearn.metrics.mean_squared_error(Y,predictions), " R-Squared= ", sklearn.metrics.r2_score(Y,predictions))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
