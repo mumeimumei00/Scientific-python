@@ -56,8 +56,8 @@ class RectangularRuleMix(Integral):
         super().__init__(funct, bound, n)
         self.name = "Mix Rectangular Rule"
 
-    # def integrate(self):
-    #     return (RectangularRuleLeft(self.funct, n= self.n/2) + RectangularRuleRight(self.funct, n= self.n/2))/2
+    def integrate(self):
+        return (RectangularRuleLeft(self.funct,self.bound, n= self.n/2).integrate() + RectangularRuleRight(self.funct,self.bound, n= self.n/2).integrate())/2
 
 class TrapezoidalRule(Integral):
     def __init__(self,funct,bound,n):
