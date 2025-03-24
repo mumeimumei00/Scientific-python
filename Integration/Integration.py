@@ -32,6 +32,13 @@ class Integral:
        self.n +=1
        return self.integrate()
 
+    def plot():
+        datares = []
+        datapoint = []
+        for x in range (100):
+            datares.append(self.next())
+            datapoint.append(x)
+
 class RectangularRuleRight(Integral):
     def __init__(self,funct,bound,n):
         super().__init__(funct, bound, n)
