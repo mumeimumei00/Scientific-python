@@ -94,17 +94,17 @@ class SimpsonRule(Integral):
     def integrate(self):
         h = (self.bound[1]-self.bound[0])/self.n
         boundterm= self.funct(self.bound[0])+self.funct(self.bound[1])
-        oddterm = np.sum(4*self.funct(h*np.array([self.bound[0]+(2*x+1) for x in range(int(self.n/2))])))
-        eventerm = np.sum(2*self.funct(h*np.array([self.bound[0]+(2*x) for x in range(1,int(self.n/2))])))
+        oddterm = np.sum(4*self.funct(np.array([self.bound[0]+(2*x+1)*h for x in range(int(self.n/2))])))
+        eventerm = np.sum(2*self.funct(np.array([self.bound[0]+(2*x)*h for x in range(1,int(self.n/2))])))
         return (h/3)*(boundterm+oddterm+eventerm)
 
 fun_set = [lambda x: x**2, lambda x: np.sin(x), lambda x: x**(0.5), lambda x: np.log(x)]
 for function in fun_set:
-    integral = iter(RectangularRuleRight(function,[1,5],2))
-    integral2 = iter(RectangularRuleLeft(function,[1,5],2))
-    integral3 = iter(RectangularRuleMix(function,[1,5],2))
-    integral4 = iter(MonteCarlo(function,[1,5],2))
-    integral5 = iter(SimpsonRule(function,[1,5],2))
+    integral = iter(RectangularRuleRight(function,[3,5],2))
+    integral2 = iter(RectangularRuleLeft(function,[3,5],2))
+    integral3 = iter(RectangularRuleMix(function,[3,5],2))
+    integral4 = iter(MonteCarlo(function,[3,5],2))
+    integral5 = iter(SimpsonRule(function,[3,5],2))
     # print(integral.integrate())
     # gprint(integral)
     datares = []
@@ -128,6 +128,7 @@ for function in fun_set:
     plt.plot(datapoint,datares5, label ='Simpson rule')
     plt.legend()
     plt.show()
+
 
 
 
