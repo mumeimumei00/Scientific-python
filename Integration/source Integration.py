@@ -19,6 +19,7 @@ class Integral:
 
     def __str__(self):
         return f"The {self.name} Integration result: {self.result}"
+                 
     @abstractmethod
     def integrate(self):
         pass
@@ -38,9 +39,8 @@ class Integral:
         for x in range (100):
             datares.append(next(iterator))
             datapoint.append(x)
-        plt.plot(datapoint,datares, label = self.__str__())
-        plt.legend()
-        plt.show()
+        print(datares)
+        print(datapoint)   
 class RectangularRuleRight(Integral):
     def __init__(self,funct,bound,n):
         super().__init__(funct, bound, n)
@@ -59,6 +59,7 @@ class RectangularRuleLeft(Integral):
     def integrate(self):
         h = (self.bound[1]-self.bound[0])/self.n
         return h*np.sum(self.funct(np.linspace(self.bound[0],self.bound[1]-h,int((self.bound[1]-self.bound[0])/h))))
+
 class RectangularRuleMix(Integral):
     def __init__(self,funct,bound,n):
         super().__init__(funct, bound, n)
@@ -129,11 +130,13 @@ class SimpsonRule(Integral):
 #     plt.legend()
 #     plt.show()
 #
-AllIntegration = [RectangularRuleRight,RectangularRuleLeft,RectangularRuleMix, MonteCarlo, SimpsonRule]
-for method in AllIntegration:
-    method(function,[3,5],2).plot()
-# r = RectangularRuleRight(function, [0,5], 2)
-# r.plot()
+# AllIntegration = [RectangularRuleRight,RectangularRuleLeft,RectangularRuleMix, MonteCarlo, SimpsonRule]
+# for method in AllIntegration:
+#     method(function,[3,5],2).plot()
+r = RectangularRuleRight(function, [0,5], 2)
+plt.show
+
+print(None)
 
 
 
