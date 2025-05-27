@@ -1,3 +1,4 @@
+from math import sqrt
 def fib(n):
     a = 0
     b = 1
@@ -11,4 +12,9 @@ def fib(n):
             print(b)
         return b
 
-print(fib(100))
+print(fib(5))
+
+def fib2(n):
+    return (1/sqrt(5))*(((1+sqrt(5))/2)**n -((1-sqrt(5))/2)**n)
+
+print(fib2(5+1))
