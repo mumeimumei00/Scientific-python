@@ -1,4 +1,6 @@
 from math import sqrt
+import gmpy as gy
+
 def fib(n):
     a = 0
     b = 1
@@ -18,3 +20,5 @@ def fib2(n):
     return (1/sqrt(5))*(((1+sqrt(5))/2)**n -((1-sqrt(5))/2)**n)
 
 print(fib2(5+1))
+print(gy.fib(37)) 
+
